@@ -1,0 +1,805 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SalonModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="User_id" Type="int" Nullable="false" />
+          <Property Name="Customer_id" Type="int" Nullable="false" />
+          <Property Name="Treatment_id" Type="int" Nullable="false" />
+          <Property Name="Time_stamp" Type="datetime" Nullable="false" />
+          <Property Name="Time_end" Type="datetime" Nullable="false" />
+          <Property Name="Status_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Customer_Id" Type="int" Nullable="false" />
+          <Property Name="Address_line1" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Address_lin2" Type="varchar" MaxLength="200" />
+          <Property Name="Town" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Fname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lname" Type="varchar" MaxLength="50" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notifier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Booking_id" Type="int" Nullable="false" />
+          <Property Name="User_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="User_id" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Week" Type="int" Nullable="false" />
+          <Property Name="Day1_start" Type="datetime" />
+          <Property Name="Day1_end" Type="datetime" />
+          <Property Name="Day2_start" Type="datetime" />
+          <Property Name="Day2_end" Type="datetime" />
+          <Property Name="Day3_start" Type="datetime" />
+          <Property Name="Day3_end" Type="datetime" />
+          <Property Name="Day4_start" Type="datetime" />
+          <Property Name="Day4_end" Type="datetime" />
+          <Property Name="Day5_start" Type="datetime" />
+          <Property Name="Day5_end" Type="datetime" />
+          <Property Name="Day6_start" Type="datetime" />
+          <Property Name="Day6_end" Type="datetime" />
+          <Property Name="Day7_start" Type="datetime" />
+          <Property Name="Day7_end" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Treatment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Treatment_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Treatment_cost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Treatment_type_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Treatment_type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Fname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role_id" Type="int" Nullable="false" />
+          <Property Name="Treatment_id" Type="int" Nullable="false" />
+          <Property Name="Contact_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Booking_Customer_id">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Status_id">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Treatment_id">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Treatment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_User_id">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Customer_Id">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifier_Booking_id">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="Notifier" Type="Self.Notifier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notifier">
+              <PropertyRef Name="Booking_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifier_User_id">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Notifier" Type="Self.Notifier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notifier">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roster_User_id">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Roster" Type="Self.Roster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roster">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treatment_Treatment_type_id">
+          <End Role="Treatment_type" Type="Self.Treatment_type" Multiplicity="1" />
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment_type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="Treatment_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Contact_id">
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Contact_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role_id">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Treatment_id">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Treatment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SalonModelStoreContainer">
+          <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifier" EntityType="Self.Notifier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roster" EntityType="Self.Roster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Treatment" EntityType="Self.Treatment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Treatment_type" EntityType="Self.Treatment_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Booking_Customer_id" Association="Self.FK_Booking_Customer_id">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Status_id" Association="Self.FK_Booking_Status_id">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Treatment_id" Association="Self.FK_Booking_Treatment_id">
+            <End Role="Treatment" EntitySet="Treatment" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_User_id" Association="Self.FK_Booking_User_id">
+            <End Role="User" EntitySet="User" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_Customer_Id" Association="Self.FK_Contact_Customer_Id">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifier_Booking_id" Association="Self.FK_Notifier_Booking_id">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="Notifier" EntitySet="Notifier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifier_User_id" Association="Self.FK_Notifier_User_id">
+            <End Role="User" EntitySet="User" />
+            <End Role="Notifier" EntitySet="Notifier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roster_User_id" Association="Self.FK_Roster_User_id">
+            <End Role="User" EntitySet="User" />
+            <End Role="Roster" EntitySet="Roster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treatment_Treatment_type_id" Association="Self.FK_Treatment_Treatment_type_id">
+            <End Role="Treatment_type" EntitySet="Treatment_type" />
+            <End Role="Treatment" EntitySet="Treatment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Contact_id" Association="Self.FK_User_Contact_id">
+            <End Role="Contact" EntitySet="Contact" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role_id" Association="Self.FK_User_Role_id">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Treatment_id" Association="Self.FK_User_Treatment_id">
+            <End Role="Treatment" EntitySet="Treatment" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SalonModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+          <Property Name="Customer_id" Type="Int32" Nullable="false" />
+          <Property Name="Treatment_id" Type="Int32" Nullable="false" />
+          <Property Name="Time_stamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Time_end" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status_id" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Booking_Customer_id" FromRole="Booking" ToRole="Customer" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Booking_Status_id" FromRole="Booking" ToRole="Status" />
+          <NavigationProperty Name="Treatment" Relationship="Self.FK_Booking_Treatment_id" FromRole="Booking" ToRole="Treatment" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Booking_User_id" FromRole="Booking" ToRole="User" />
+          <NavigationProperty Name="Notifiers" Relationship="Self.FK_Notifier_Booking_id" FromRole="Booking" ToRole="Notifier" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Customer_Id" Type="Int32" Nullable="false" />
+          <Property Name="Address_line1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address_lin2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Town" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Contact_Customer_Id" FromRole="Contact" ToRole="Customer" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Contact_id" FromRole="Contact" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Fname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Lname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_Customer_id" FromRole="Customer" ToRole="Booking" />
+          <NavigationProperty Name="Contacts" Relationship="Self.FK_Contact_Customer_Id" FromRole="Customer" ToRole="Contact" />
+        </EntityType>
+        <EntityType Name="Notifier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Booking_id" Type="Int32" Nullable="false" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Booking" Relationship="Self.FK_Notifier_Booking_id" FromRole="Notifier" ToRole="Booking" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Notifier_User_id" FromRole="Notifier" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Role_id" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Roster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Week" Type="Int32" Nullable="false" />
+          <Property Name="Day1_start" Type="DateTime" Precision="3" />
+          <Property Name="Day1_end" Type="DateTime" Precision="3" />
+          <Property Name="Day2_start" Type="DateTime" Precision="3" />
+          <Property Name="Day2_end" Type="DateTime" Precision="3" />
+          <Property Name="Day3_start" Type="DateTime" Precision="3" />
+          <Property Name="Day3_end" Type="DateTime" Precision="3" />
+          <Property Name="Day4_start" Type="DateTime" Precision="3" />
+          <Property Name="Day4_end" Type="DateTime" Precision="3" />
+          <Property Name="Day5_start" Type="DateTime" Precision="3" />
+          <Property Name="Day5_end" Type="DateTime" Precision="3" />
+          <Property Name="Day6_start" Type="DateTime" Precision="3" />
+          <Property Name="Day6_end" Type="DateTime" Precision="3" />
+          <Property Name="Day7_start" Type="DateTime" Precision="3" />
+          <Property Name="Day7_end" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Roster_User_id" FromRole="Roster" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_Status_id" FromRole="Status" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Treatment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Treatment_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Treatment_cost" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Treatment_type_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_Treatment_id" FromRole="Treatment" ToRole="Booking" />
+          <NavigationProperty Name="Treatment_type" Relationship="Self.FK_Treatment_Treatment_type_id" FromRole="Treatment" ToRole="Treatment_type" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Treatment_id" FromRole="Treatment" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Treatment_type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Treatments" Relationship="Self.FK_Treatment_Treatment_type_id" FromRole="Treatment_type" ToRole="Treatment" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Fname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Lname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role_id" Type="Int32" Nullable="false" />
+          <Property Name="Treatment_id" Type="Int32" Nullable="false" />
+          <Property Name="Contact_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_User_id" FromRole="User" ToRole="Booking" />
+          <NavigationProperty Name="Contact" Relationship="Self.FK_User_Contact_id" FromRole="User" ToRole="Contact" />
+          <NavigationProperty Name="Notifiers" Relationship="Self.FK_Notifier_User_id" FromRole="User" ToRole="Notifier" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role_id" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Rosters" Relationship="Self.FK_Roster_User_id" FromRole="User" ToRole="Roster" />
+          <NavigationProperty Name="Treatment" Relationship="Self.FK_User_Treatment_id" FromRole="User" ToRole="Treatment" />
+        </EntityType>
+        <Association Name="FK_Booking_Customer_id">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Status_id">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Treatment_id">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Treatment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_User_id">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifier_Booking_id">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="Notifier" Type="Self.Notifier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notifier">
+              <PropertyRef Name="Booking_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Customer_Id">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Contact_id">
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Contact_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifier_User_id">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Notifier" Type="Self.Notifier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notifier">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role_id">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roster_User_id">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Roster" Type="Self.Roster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roster">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treatment_Treatment_type_id">
+          <End Role="Treatment_type" Type="Self.Treatment_type" Multiplicity="1" />
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment_type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="Treatment_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Treatment_id">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Treatment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SalonEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Notifiers" EntityType="Self.Notifier" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Rosters" EntityType="Self.Roster" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Treatments" EntityType="Self.Treatment" />
+          <EntitySet Name="Treatment_type" EntityType="Self.Treatment_type" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Booking_Customer_id" Association="Self.FK_Booking_Customer_id">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Status_id" Association="Self.FK_Booking_Status_id">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Treatment_id" Association="Self.FK_Booking_Treatment_id">
+            <End Role="Treatment" EntitySet="Treatments" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_User_id" Association="Self.FK_Booking_User_id">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifier_Booking_id" Association="Self.FK_Notifier_Booking_id">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="Notifier" EntitySet="Notifiers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_Customer_Id" Association="Self.FK_Contact_Customer_Id">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Contact_id" Association="Self.FK_User_Contact_id">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifier_User_id" Association="Self.FK_Notifier_User_id">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Notifier" EntitySet="Notifiers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role_id" Association="Self.FK_User_Role_id">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roster_User_id" Association="Self.FK_Roster_User_id">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Roster" EntitySet="Rosters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treatment_Treatment_type_id" Association="Self.FK_Treatment_Treatment_type_id">
+            <End Role="Treatment_type" EntitySet="Treatment_type" />
+            <End Role="Treatment" EntitySet="Treatments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Treatment_id" Association="Self.FK_User_Treatment_id">
+            <End Role="Treatment" EntitySet="Treatments" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SalonModelStoreContainer" CdmEntityContainer="SalonEntities">
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="SalonModel.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+                <ScalarProperty Name="Customer_id" ColumnName="Customer_id" />
+                <ScalarProperty Name="Treatment_id" ColumnName="Treatment_id" />
+                <ScalarProperty Name="Time_stamp" ColumnName="Time_stamp" />
+                <ScalarProperty Name="Time_end" ColumnName="Time_end" />
+                <ScalarProperty Name="Status_id" ColumnName="Status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="SalonModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
+                <ScalarProperty Name="Address_line1" ColumnName="Address_line1" />
+                <ScalarProperty Name="Address_lin2" ColumnName="Address_lin2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="SalonModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fname" ColumnName="Fname" />
+                <ScalarProperty Name="Lname" ColumnName="Lname" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifiers">
+            <EntityTypeMapping TypeName="SalonModel.Notifier">
+              <MappingFragment StoreEntitySet="Notifier">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Booking_id" ColumnName="Booking_id" />
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="SalonModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rosters">
+            <EntityTypeMapping TypeName="SalonModel.Roster">
+              <MappingFragment StoreEntitySet="Roster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Week" ColumnName="Week" />
+                <ScalarProperty Name="Day1_start" ColumnName="Day1_start" />
+                <ScalarProperty Name="Day1_end" ColumnName="Day1_end" />
+                <ScalarProperty Name="Day2_start" ColumnName="Day2_start" />
+                <ScalarProperty Name="Day2_end" ColumnName="Day2_end" />
+                <ScalarProperty Name="Day3_start" ColumnName="Day3_start" />
+                <ScalarProperty Name="Day3_end" ColumnName="Day3_end" />
+                <ScalarProperty Name="Day4_start" ColumnName="Day4_start" />
+                <ScalarProperty Name="Day4_end" ColumnName="Day4_end" />
+                <ScalarProperty Name="Day5_start" ColumnName="Day5_start" />
+                <ScalarProperty Name="Day5_end" ColumnName="Day5_end" />
+                <ScalarProperty Name="Day6_start" ColumnName="Day6_start" />
+                <ScalarProperty Name="Day6_end" ColumnName="Day6_end" />
+                <ScalarProperty Name="Day7_start" ColumnName="Day7_start" />
+                <ScalarProperty Name="Day7_end" ColumnName="Day7_end" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="SalonModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treatments">
+            <EntityTypeMapping TypeName="SalonModel.Treatment">
+              <MappingFragment StoreEntitySet="Treatment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Treatment_name" ColumnName="Treatment_name" />
+                <ScalarProperty Name="Treatment_cost" ColumnName="Treatment_cost" />
+                <ScalarProperty Name="Treatment_type_id" ColumnName="Treatment_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treatment_type">
+            <EntityTypeMapping TypeName="SalonModel.Treatment_type">
+              <MappingFragment StoreEntitySet="Treatment_type">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SalonModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fname" ColumnName="Fname" />
+                <ScalarProperty Name="Lname" ColumnName="Lname" />
+                <ScalarProperty Name="Role_id" ColumnName="Role_id" />
+                <ScalarProperty Name="Treatment_id" ColumnName="Treatment_id" />
+                <ScalarProperty Name="Contact_id" ColumnName="Contact_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

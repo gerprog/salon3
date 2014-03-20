@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3c0fec1908d047e18955478886d4fbde" Name="Diagram1">
+        <EntityTypeShape EntityType="SalonModel.Booking" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.Contact" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.Customer" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.Notifier" Width="1.5" PointX="7.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.Role" Width="1.5" PointX="3" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.Roster" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.Status" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.Treatment" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.Treatment_type" Width="1.5" PointX="1.5" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalonModel.User" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <AssociationConnector Association="SalonModel.FK_Booking_Customer_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_Booking_Status_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_Booking_Treatment_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_Booking_User_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_Notifier_Booking_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_Contact_Customer_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_User_Contact_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_Notifier_User_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_User_Role_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_Roster_User_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_Treatment_Treatment_type_id" ManuallyRouted="false" />
+        <AssociationConnector Association="SalonModel.FK_User_Treatment_id" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
